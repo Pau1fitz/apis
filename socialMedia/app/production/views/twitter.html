@@ -1,0 +1,33 @@
+<div id="twitter-page">
+    <div class="container">
+        <h3>Twitter Posts</h3>
+        <img class="spinner" src="../app/production/images/spinner.gif" data-ng-show="ctrl.loading" alt="Spinner" />
+        <div ng-show="ctrl.error">
+            <p>Sorry but there has been an error with loading content. Please try again soon.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">  
+                <div ng-repeat="post in ctrl.twitterPosts">
+                    <div ng-if="post.display" class="tweet">
+                        <p class="tweet-content">{{post.text}}</p>
+                        <div class="lower">
+                            <div class="heart"></div>
+                            <p class="favorite-count">{{post.favorite_count}}</p>
+                            <p ng-if="post.entities.urls[0].url">
+                                <a ng-href="{{post.entities.urls[0].url}}">{{post.entities.urls[0].url}}</a>
+                            </p>
+                            <p class="twitter-time">{{post.created_at | date:'dd MMM HH:mm'}}</p>
+                            <a ng-click="ctrl.removeTweet($index)">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="home-button" ng-href="#/">Home</a>
+    <a class="follow-button" href="https://www.twitter.com/CalvinHarris/">Follow Calvin</a>
+</div>
+
+
+

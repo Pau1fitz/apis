@@ -1,0 +1,29 @@
+<div class="flickr-page">
+    <div class="container">
+        <h3 class="title">Flickr Posts</h3>
+        <img class="spinner" src="../app/production/images/spinner.gif" data-ng-show="ctrl.loading" alt="Spinner" />
+        <div ng-show="ctrl.error" class="error">
+            <p>Sorry but there has been an error with loading content. Please try again soon.</p>
+        </div>
+        <div class="user-posts" data-ng-repeat="user in ctrl.flickrPosts">
+            <div class="row">
+                <div class="col-xs-3 post-image">
+                    <img ng-src="{{user.media.m}}" alt="Post Photo">
+                </div>
+                <div class="col-xs-9 post-details">
+                    <h3 class="post-title">{{user.title}}</a></h3>
+                    <p class="post-author"><a ng-href="https://www.flickr.com/photos/{{user.author_id}}">{{user.author | regex}}</a></p>
+                    <p class="post-date">Published: {{user.published | date:'d MMM yyyy'}} at {{user.published | date:'h:mm'}}</p>
+                    <p class="flickr-link"><a ng-href="{{user.link}}">view on flickr</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="home-button" ng-href="#/">Home</a>
+</div>
+
+
+
+
+
+

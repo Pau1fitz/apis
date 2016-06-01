@@ -1,0 +1,33 @@
+<div id="instagram-page">
+        <div class="container">
+        <h3>Instagram Posts</h3>
+        <img class="spinner" src="../app/production/images/spinner.gif" data-ng-show="ctrl.loading" alt="Spinner" />
+            <div ng-show="ctrl.error" class="error">
+                <p>Sorry but there has been an error with loading content. Please try again soon.</p>
+            </div>
+        <div class="instagram-posts" ng-repeat="instagramPost in ctrl.instagramPosts | limitTo:5">  
+            <div class="row">
+                <div class="col-xs-6 col-xs-offset-3 instagram-post">        
+                    <img ng-if="!instagramPost.videos" ng-src="{{instagramPost.images.standard_resolution.url}}">
+                    <video ng-if="instagramPost.videos" controls>
+                    <source ng-src="{{instagramPost.videos.standard_resolution.url | trustUrl}}" 
+                      type="video/mp4"/>
+                    </video>
+                    <p>{{instagramPost.caption.text}}</p>
+                    <p>{{instagramPost.likes.count}} Likes</p>
+                    <p>{{instagramPost.created_time * 1000 | date:'dd MMM HH:mm'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="home-button" ng-href="#/">Home</a>
+    <a class="follow-button" href="https://www.instagram.com/calvinharris/">Follow Calvin</a>
+</div>
+
+
+
+
+
+
+
+
