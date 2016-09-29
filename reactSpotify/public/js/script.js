@@ -3,8 +3,8 @@ var App = React.createClass({
 	getInitialState: function() {
 	    return {
 	          data: [],
-	          photo: 0,
-	          access_token: ''
+	          access_token: '',
+	          photo: 0
 	    };
 	},
 
@@ -28,6 +28,15 @@ var App = React.createClass({
         this.getSpotifyData();
 	},
 
+
+	nextPhoto: function() {
+		this.setState({photo : this.state.photo += 1});
+	},
+
+	previousPhoto: function() {
+		this.setState({photo : this.state.photo -= 1});
+	},
+
 	getSpotifyData: function(){
 
 		$.ajax({
@@ -40,19 +49,13 @@ var App = React.createClass({
 		})
 
 	},
-
-	nextPhoto: function() {
-		this.state.photo += 1;
-		console.log(this.state)
-	},
-
 	render: function() {
 
 		return(
 			<div>
-				<BackgroundImage src={this.state.data} item={this.state.photo}/>
+				<BackgroundImage src={this.state.data} image={this.state.photo} />
 				<Info />
-				<Button photo={this.nextPhoto} />
+				<Button nextPhoto={this.nextPhoto} previousPhoto={this.previousPhoto} />
 			</div>
 		)
 	}
@@ -66,7 +69,7 @@ var BackgroundImage = React.createClass({
 		})
 
 		var divStyle = {
-			background: 'url(' + images[3] + ')'
+			background: 'url(' + images[this.props.image] + ')'
 		}
 
 		return(<div id='screen' style={divStyle}></div>)
@@ -78,7 +81,21 @@ var Button = React.createClass({
 
 	render: function() {
 		return (
-			<div onClick={this.props.photo} className="button">
+			<div className="button">
+				<div className='menu'>MENU</div>
+				
+				<div className="next" onClick={this.props.nextPhoto}>
+					<i className="fa fa-fast-forward" aria-hidden="true"></i>
+				</div>
+				
+				<div className="pause">
+					<i className="fa fa-play" aria-hidden="true"></i>
+					<i className="fa fa-pause" aria-hidden="true"></i>
+				</div>
+
+				<div className="prev" onClick={this.props.previousPhoto}>
+					<i className="fa fa-fast-backward" aria-hidden="true"></i>
+				</div>
 		    	<div className='inner-button'></div>
 		    </div>
 		)
