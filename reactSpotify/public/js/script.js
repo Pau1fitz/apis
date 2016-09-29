@@ -28,21 +28,20 @@ var App = React.createClass({
         this.getSpotifyData();
 	},
 
-	nextSong: function() {
-		console.log(this.state.song)
-		if(this.state.song === this.state.data.length) {
-			this.setState({song : 0});
-		}else{
-			this.setState({song : this.state.song += 1});
-		}
 
+	nextSong: function() {
+	    if(this.state.song === this.state.data.length - 1) {
+	        this.setState({song : 0});
+	    }else{
+	        this.setState({song : this.state.song + 1});
+	    }
 	},
 
 	previousSong: function() {
 		if(this.state.song === 0) {
-			this.setState({song : this.state.data.length});
+			this.setState({song : this.state.data.length - 1});
 		}else{
-			this.setState({song : this.state.song -= 1});
+			this.setState({song : this.state.song - 1});
 		}
 		
 	},
@@ -100,6 +99,7 @@ var Button = React.createClass({
 	audio: new Audio,
 
 	playSong: function(){
+		console.log('playsong app ' + this.props.song)
 		this.setState({playing: true});
 		this.audio.src = this.state.songs[this.props.song];
 		this.audio.play();
@@ -111,25 +111,36 @@ var Button = React.createClass({
 	},
 
 	nextSong: function() {
-		this.audio.src = this.state.songs[this.props.song + 1];
+		console.log('nextSong button ' + this.props.song)
+		this.audio.src = this.state.songs[this.props.song];
 		this.audio.play();
+	},
+
+
+
+	previousSong: function() {
+		
+		console.log('prevSong app ' + this.props.song)
+		this.setState({playing: true});
+		this.audio.src = this.state.songs[this.props.song];
+		this.audio.play();
+	},
+
+	componentWillUpdate: function(nextProps, nextState) {
+	  if (nextProps.song !== this.props.song) {
+	    this.audio.src = this.state.songs[nextProps.song];
+	    this.audio.play();
+	  }
 	},
 
 	onClickNext: function(){
-		this.setState({playing: true});
-		this.props.nextSong();
-		this.nextSong()
-	},
-
-	previousSong: function() {
-		this.setState({playing: true});
-		this.audio.src = this.state.songs[this.props.song - 1];
-		this.audio.play();
+	    this.setState({playing: true});
+	    this.props.nextSong();
 	},
 
 	onClickPrevious: function(){
-		this.props.previousSong();
-		this.previousSong()
+		this.setState({playing: true});
+	    this.props.previousSong();
 	},
 
 	render: function() {
