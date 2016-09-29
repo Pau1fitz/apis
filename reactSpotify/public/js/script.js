@@ -4,7 +4,7 @@ var App = React.createClass({
 	    return {
 	          data: [],
 	          access_token: '',
-	          photo: 0
+	          song: 0
 	    };
 	},
 
@@ -28,13 +28,12 @@ var App = React.createClass({
         this.getSpotifyData();
 	},
 
-
-	nextPhoto: function() {
-		this.setState({photo : this.state.photo += 1});
+	nextSong: function() {
+		this.setState({song : this.state.song += 1});
 	},
 
-	previousPhoto: function() {
-		this.setState({photo : this.state.photo -= 1});
+	previousSong: function() {
+		this.setState({song : this.state.song -= 1});
 	},
 
 	getSpotifyData: function(){
@@ -49,13 +48,14 @@ var App = React.createClass({
 		})
 
 	},
+
 	render: function() {
 
 		return(
 			<div>
-				<BackgroundImage src={this.state.data} image={this.state.photo} />
+				<BackgroundImage src={this.state.data} image={this.state.song} />
 				<Info />
-				<Button nextPhoto={this.nextPhoto} previousPhoto={this.previousPhoto} />
+				<Button src={this.state.data} song={this.state.song} nextPhoto={this.nextSong} previousPhoto={this.previousSong} />
 			</div>
 		)
 	}
@@ -79,7 +79,24 @@ var BackgroundImage = React.createClass({
 
 var Button = React.createClass({
 
+	getInitialState: function(){
+		return{
+			songs:[]
+		}
+	},
+
+	audio: new Audio,
+
+	playSong: function(){
+		this.audio.src = this.state.songs[this.props.song];
+		this.audio.play();
+	},
+
 	render: function() {
+		var self = this;
+		var songs = this.props.src.map(function(song, i){
+			self.state.songs.push(song.track.preview_url)
+		})
 		return (
 			<div className="button">
 				<div className='menu'>MENU</div>
@@ -89,8 +106,8 @@ var Button = React.createClass({
 				</div>
 				
 				<div className="pause">
-					<i className="fa fa-play" aria-hidden="true"></i>
-					<i className="fa fa-pause" aria-hidden="true"></i>
+					<i onClick={this.playSong} className="fa fa-play" aria-hidden="true"></i>
+					<i onClick={this.playSong}  className="fa fa-pause" aria-hidden="true"></i>
 				</div>
 
 				<div className="prev" onClick={this.props.previousPhoto}>
