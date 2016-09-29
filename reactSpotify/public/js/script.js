@@ -122,6 +122,7 @@ var Button = React.createClass({
 	},
 
 	previousSong: function() {
+		this.setState({playing: true});
 		this.audio.src = this.state.songs[this.props.song - 1];
 		this.audio.play();
 	},
