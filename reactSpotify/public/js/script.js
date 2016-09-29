@@ -29,11 +29,22 @@ var App = React.createClass({
 	},
 
 	nextSong: function() {
-		this.setState({song : this.state.song += 1});
+		console.log(this.state.song)
+		if(this.state.song === this.state.data.length) {
+			this.setState({song : 0});
+		}else{
+			this.setState({song : this.state.song += 1});
+		}
+
 	},
 
 	previousSong: function() {
-		this.setState({song : this.state.song -= 1});
+		if(this.state.song === 0) {
+			this.setState({song : this.state.data.length});
+		}else{
+			this.setState({song : this.state.song -= 1});
+		}
+		
 	},
 
 	getSpotifyData: function(){
@@ -55,7 +66,7 @@ var App = React.createClass({
 			<div>
 				<BackgroundImage src={this.state.data} image={this.state.song} />
 				<Info />
-				<Button src={this.state.data} song={this.state.song} nextPhoto={this.nextSong} previousPhoto={this.previousSong} />
+				<Button src={this.state.data} song={this.state.song} nextSong={this.nextSong} previousSong={this.previousSong} />
 			</div>
 		)
 	}
@@ -81,15 +92,43 @@ var Button = React.createClass({
 
 	getInitialState: function(){
 		return{
-			songs:[]
+			songs:[],
+			playing: false
 		}
 	},
 
 	audio: new Audio,
 
 	playSong: function(){
+		this.setState({playing: true});
 		this.audio.src = this.state.songs[this.props.song];
 		this.audio.play();
+	},
+
+	pauseSong: function() {
+		this.setState({playing: false});
+		this.audio.pause();
+	},
+
+	nextSong: function() {
+		this.audio.src = this.state.songs[this.props.song + 1];
+		this.audio.play();
+	},
+
+	onClickNext: function(){
+		this.setState({playing: true});
+		this.props.nextSong();
+		this.nextSong()
+	},
+
+	previousSong: function() {
+		this.audio.src = this.state.songs[this.props.song - 1];
+		this.audio.play();
+	},
+
+	onClickPrevious: function(){
+		this.props.previousSong();
+		this.previousSong()
 	},
 
 	render: function() {
@@ -97,20 +136,21 @@ var Button = React.createClass({
 		var songs = this.props.src.map(function(song, i){
 			self.state.songs.push(song.track.preview_url)
 		})
+
 		return (
 			<div className="button">
 				<div className='menu'>MENU</div>
 				
-				<div className="next" onClick={this.props.nextPhoto}>
+				<div className="next" onClick={this.onClickNext}>
 					<i className="fa fa-fast-forward" aria-hidden="true"></i>
 				</div>
 				
 				<div className="pause">
-					<i onClick={this.playSong} className="fa fa-play" aria-hidden="true"></i>
-					<i onClick={this.playSong}  className="fa fa-pause" aria-hidden="true"></i>
+					<i onClick={this.state.playing ? this.pauseSong : this.playSong}className="fa fa-play" aria-hidden="true"></i>
+					<i onClick={this.state.playing ? this.pauseSong : this.playSong} className="fa fa-pause" aria-hidden="true"></i>
 				</div>
 
-				<div className="prev" onClick={this.props.previousPhoto}>
+				<div className="prev" onClick={this.onClickPrevious}>
 					<i className="fa fa-fast-backward" aria-hidden="true"></i>
 				</div>
 		    	<div className='inner-button'></div>
