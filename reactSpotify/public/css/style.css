@@ -42,14 +42,17 @@ h2, p {
 .phone-case{
 	font-family: Arial;
 	border-radius: 15px;
-  	background: #2b2b2b;
-  	background: linear-gradient(135deg,  #2b2b2b 15%,#000000 100%);
-  	position: relative;
-    margin: 25px auto;
-    width: 380px;
-    height: 600px;
-  	box-shadow: inset 0px 1px 4px 3px rgba(255,255,255, .1), 3px 3px 15px rgba(0,0,0, .5);
-  	border: 3px solid #333;
+	background: #2b2b2b;
+	background: linear-gradient(135deg,  #2b2b2b 15%,#000000 100%);
+  margin-top: 25px;
+  width: 380px;
+  height: 600px;
+	box-shadow: inset 0px 1px 4px 3px rgba(255,255,255, .1), 3px 3px 15px rgba(0,0,0, .5);
+	border: 3px solid #333;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .phone-top{
