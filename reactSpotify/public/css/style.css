@@ -64,69 +64,69 @@ h2, p {
 }
 
 .camera {
-    position: relative;
-    background: #222;
-    border-radius: 50%;
-    height: 15px;
-    width: 15px;
-    left: 15px;
-    top: 10px;
-  	box-shadow: inset 0px 1px 10px 3px rgba(255,255,255, .1), 1px 0px 1px rgba(0,0,0, .5);
-  }
+  position: relative;
+  background: #222;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  left: 15px;
+  top: 10px;
+	box-shadow: inset 0px 1px 10px 3px rgba(255,255,255, .1), 1px 0px 1px rgba(0,0,0, .5);
+}
 
 #screen {
-    position: absolute;
-  	width: 300px;
-    height: 300px;
-    top: 80px;
-    left: 40px;
-    border-radius: 4px;
-    box-shadow: inset 0 0 15px 2px rgba(0,0,0, .2), 0 0 2px 2px rgba(255,255,255, .03);
+  position: absolute;
+	width: 300px;
+  height: 300px;
+  top: 80px;
+  left: 40px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 15px #fff;
 }
 
 .info {
-    background-color: #000;
-    color: #fff;
-    padding: 5px 0;
-    position: absolute;
-    width: 300px;
-    margin-left: 40px;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
-    top: 58px;
+  background-color: #000;
+  color: #fff;
+  padding: 5px 0;
+  position: absolute;
+  width: 300px;
+  margin-left: 40px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  top: 58px;
 }
 
 .circle-one {
-  	width: 3px;
-  	height: 3px;
-  	border-radius: 50%;
-  	background: #fff;
-  	border: 2px solid #fff;
-  	float: left;
-  	position: relative;
-  	top: 3px;
-  	margin: 1px 1px 1px 5px;
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	background: #fff;
+	border: 2px solid #fff;
+	float: left;
+	position: relative;
+	top: 3px;
+	margin: 1px 1px 1px 5px;
 }
 .circle-two {
-  	width: 3px;
-  	height: 3px;
-  	border-radius: 50%;
-  	border: 2px solid #fff;
-  	float: left;
-  	position: relative;
-  	top: 3px;
-  	margin: 1px;
-  }
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	float: left;
+	position: relative;
+	top: 3px;
+	margin: 1px;
+}
 
 .circle-three {
-  	width: 3px;
-  	height: 3px;
-  	border-radius: 50%;
-  	border: 2px solid #fff;
-  	float: left;
-  	position: relative;
-  	top: 3px;
-  	margin: 1px;
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	float: left;
+	position: relative;
+	top: 3px;
+	margin: 1px;
 }
 
 .time {
@@ -148,20 +148,20 @@ h2, p {
 }
 
 .vendor {
-  	float: left;
-  	font-size: 12px;
-  	margin-left: 2px;
+	float: left;
+	font-size: 12px;
+	margin-left: 2px;
 }
 
 .button { 
-    background-color: #000;
-    border-radius: 50%;
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    bottom: 10px;
-    left: 25%;
-    box-shadow: 0 0 3px 0px rgba(255,255,255, .1);
+  background-color: #000;
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  bottom: 10px;
+  left: 25%;
+  box-shadow: 0 0 3px 0px rgba(255,255,255, .1);
 }
 
 .inner-button {
@@ -178,24 +178,28 @@ h2, p {
   position: absolute;
   left: 78px;
   top: 30px;
+  color: #C0C0C0;
 }
 
 .next {
   position: absolute;
   top: 90px;
   left: 156px;
+  color: #C0C0C0;
 }
 
 .prev {
   position: absolute;
-    top: 90px;
-    left: 30px;
+  top: 90px;
+  left: 30px;
+  color: #C0C0C0;
 }
 
 .pause {
-    position: absolute;
-    bottom: 30px;
-    left: 86px;
+  position: absolute;
+  bottom: 30px;
+  left: 86px;
+  color: #C0C0C0;
 }
 
 .pause i {
