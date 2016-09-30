@@ -4,7 +4,8 @@ var App = React.createClass({
 
 		return {
 			active: 0,
-			artists: ['Michael Jackson', 'Bob Dylan', 'Kendrick Lama', 'Elvis Presley', 'Daft Punk', 'Oasis']
+			artists: ['Michael Jackson', 'Bob Dylan', 'Kendrick Lama', 'Elvis Presley', 'Daft Punk', 'Oasis'],
+			songs: ''
 		}
 	},
 
@@ -26,13 +27,26 @@ var App = React.createClass({
 
 	},
 
+	getItunesData: function(){
+		$.ajax({
+			url: 'https://itunes.apple.com/search?term=' + this.state.artists[this.state.active] ,
+			method: 'GET',
+			dataType: 'jsonp',
+			success: function(data){
+				console.log(data)
+				this.setState({songs: data.results});
+				console.log(this.state)
+			}.bind(this)
+		})
+	},
+
 	render: function () {
 		return(
 			<div>
 				<div id="screen">
 					<ArtistList active={this.state.active} artists={this.state.artists} />
 				</div>
-					<Button increment={this.increaseIndex} decrement={this.decreaseIndex} />
+					<Button increment={this.increaseIndex} decrement={this.decreaseIndex} search={this.getItunesData} />
 			</div>
 		)
 	}
@@ -69,7 +83,7 @@ var Button = React.createClass({
 				</div>
 				
 				<div className="pause">
-					<i className="fa fa-play" aria-hidden="true"></i>
+					<i onClick={this.props.search} className="fa fa-play" aria-hidden="true"></i>
 					<i className="fa fa-pause" aria-hidden="true"></i>
 				</div>
 
