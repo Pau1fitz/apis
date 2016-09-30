@@ -5,7 +5,7 @@ var App = React.createClass({
 		return {
 			active: 0,
 			artists: ['Michael Jackson', 'Bob Dylan', 'Kendrick Lama', 'Elvis Presley', 'Daft Punk', 'Oasis'],
-			songs: ''
+			songs: []
 		}
 	},
 
@@ -33,9 +33,7 @@ var App = React.createClass({
 			method: 'GET',
 			dataType: 'jsonp',
 			success: function(data){
-				console.log(data)
 				this.setState({songs: data.results});
-				console.log(this.state)
 			}.bind(this)
 		})
 	},
@@ -46,7 +44,7 @@ var App = React.createClass({
 				<div id="screen">
 					<ArtistList active={this.state.active} artists={this.state.artists} />
 				</div>
-					<Button increment={this.increaseIndex} decrement={this.decreaseIndex} search={this.getItunesData} />
+					<Button active={this.state.active} songs={this.state.songs} increment={this.increaseIndex} decrement={this.decreaseIndex} search={this.getItunesData} />
 			</div>
 		)
 	}
@@ -72,7 +70,61 @@ var ArtistList = React.createClass({
 });
 
 var Button = React.createClass({
+
+	getInitialState: function(){
+		return{
+			songs:[],
+			playing: false
+		}
+	},
+
+	audio: new Audio,
+
+	playSong: function(){
+		console.log('playsong app ' + this.props.active)
+		this.setState({playing: true});
+		this.audio.src = this.state.songs[this.props.active];
+		this.audio.play();
+	},
+
+	pauseSong: function() {
+		this.setState({playing: false});
+		this.audio.pause();
+	},
+
+	nextSong: function() {
+		console.log('nextSong button ' + this.props.active)
+		this.audio.src = this.state.songs[this.props.active];
+		this.audio.play();
+	},
+
+	previousSong: function() {
+		
+		console.log('prevSong app ' + this.props.active)
+		this.setState({playing: true});
+		this.audio.src = this.state.songs[this.props.active];
+		this.audio.play();
+	},
+
+	componentWillUpdate: function(nextProps, nextState) {
+	  if (nextProps.active !== this.props.active) {
+	    this.audio.src = this.state.songs[nextProps.active];
+	    this.audio.play();
+	  }
+	},
+
+	onClick: function(){
+		this.playSong();
+		this.props.search();
+	},
+
 	render: function() {
+		var self = this;
+
+		var songs = this.props.songs.map(function(song){
+			self.state.songs.push(song.previewUrl);
+		})
+		
 		return(
 			
 			<div className="button">
@@ -83,8 +135,8 @@ var Button = React.createClass({
 				</div>
 				
 				<div className="pause">
-					<i onClick={this.props.search} className="fa fa-play" aria-hidden="true"></i>
-					<i className="fa fa-pause" aria-hidden="true"></i>
+					<i onClick={this.onClick} className="fa fa-play" aria-hidden="true"></i>
+					<i onClick={this.pauseSong} className="fa fa-pause" aria-hidden="true"></i>
 				</div>
 
 				<div className="prev" onClick={this.props.decrement}>
