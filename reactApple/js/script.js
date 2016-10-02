@@ -10,7 +10,7 @@ var App = React.createClass({
 	},
 
 	increaseIndex: function() {
-		 if(this.state.active === this.state.artists.length - 1) {
+	    if(this.state.active === this.state.artists.length - 1) {
 	        this.setState({active : 0});
 	    }else{
 	    	this.setState({active : this.state.active + 1});	
@@ -126,7 +126,6 @@ var Button = React.createClass({
 		})
 		
 		return(
-			
 			<div className="button">
 				<div className='menu'>MENU</div>
 				
