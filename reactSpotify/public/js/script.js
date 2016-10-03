@@ -116,8 +116,6 @@ var Button = React.createClass({
 		this.audio.play();
 	},
 
-
-
 	previousSong: function() {
 		
 		console.log('prevSong app ' + this.props.song)
