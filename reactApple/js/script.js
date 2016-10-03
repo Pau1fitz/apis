@@ -145,7 +145,6 @@ var Button = React.createClass({
 	getMusicAndNavigate: function() {
 		this.props.getItunesData();
 		this.props.changeScreen();
-		console.log('hi')
 	},
 
 	render: function() {
