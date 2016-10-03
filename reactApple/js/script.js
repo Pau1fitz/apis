@@ -165,7 +165,7 @@ var HomeButton = React.createClass({
 
 	getMusicAndNavigate: function() {
 		this.props.getItunesData();
-		this.props.musicScreen();
+		this.props.changeScreen();
 	},
 
 	render: function() {
