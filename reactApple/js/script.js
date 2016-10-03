@@ -4,7 +4,7 @@ var App = React.createClass({
 
 		return {
 			active: 0,
-			artists: ['Michael Jackson', 'Bob Dylan', 'Kendrick Lama', 'Elvis Presley', 'Daft Punk', 'Oasis'],
+			artists: ['Michael Jackson', 'Bob Dylan', 'Coldplay', 'Elvis Presley', 'Blur', 'Oasis'],
 			songData: [],
 			songs: [],
 			playing: false,
@@ -19,7 +19,6 @@ var App = React.createClass({
 	    }else{
 	    	this.setState({active : this.state.active + 1});	
 	    }
-
 	},
 
 	decreaseIndex: function() {
@@ -30,6 +29,22 @@ var App = React.createClass({
 		}
 	},
 
+	increaseSongIndex: function() {
+	    if(this.state.activeSong === 4) {
+	        this.setState({activeSong : 0});
+	    }else{
+	    	this.setState({activeSong : this.state.activeSong + 1});	
+	    }
+	},
+
+	decreaseSongIndex: function() {
+		if(this.state.activeSong === 0) {
+			this.setState({activeSong : 4});
+		}else{
+			this.setState({activeSong : this.state.activeSong - 1});
+		}
+	},
+
 	getItunesData: function(){
 		var self = this;
 		$.ajax({
@@ -37,18 +52,23 @@ var App = React.createClass({
 			method: 'GET',
 			dataType: 'jsonp',
 			success: function(data){
-				this.setState({songData: data.results});
+				this.setState({songData: data.results, songs: []});
 				data.results.map(function(song, index){
 					self.state.songs.push(song.previewUrl)
-				})
-				
+				})	
 			}.bind(this)
 		})
 	},
 
-	changeScreen: function(){
+	musicScreen: function(){
 		this.setState({
 			homeScreen: false
+		})
+	},
+
+	homeScreen: function(){
+		this.setState({
+			homeScreen: true
 		})
 	},
 
@@ -56,7 +76,7 @@ var App = React.createClass({
 
 	playSong: function(){
 		this.setState({playing: true});
-		this.audio.src = this.state.songs[this.state.active];
+		this.audio.src = this.state.songs[this.state.activeSong];
 		this.audio.play();
 	},
 
@@ -65,36 +85,38 @@ var App = React.createClass({
 	},
 
 	nextSong: function() {
-		console.log('nextSong button ' + this.state.active)
-		this.audio.src = this.state.songs[this.state.active];
+		this.audio.src = this.state.songs[this.state.activeSong];
 		this.audio.play();
 	},
 
 	previousSong: function() {
-		this.audio.src = this.state.songs[this.state.active];
+		this.audio.src = this.state.songs[this.state.activeSong];
 		this.audio.play();
 	},
 
 	componentWillUpdate: function(nextProps, nextState) {
-	  if (nextState.active !== this.state.active) {
-	    this.audio.src = this.state.songs[nextState.active];
+	  if (nextState.activeSong !== this.state.activeSong) {
+	    this.audio.src = this.state.songs[nextState.activeSong];
 	    this.audio.play();
 	  }
 	},
 
 	render: function () {
-		var screen;
+		var screen,
+			button;
 		if (this.state.homeScreen === true) {
 		  	screen = <ArtistList active={this.state.active} artists={this.state.artists} playing={this.state.playing} />
+		  	button = <HomeButton active={this.state.active} increment={this.increaseIndex} decrement={this.decreaseIndex} pauseSong={this.pauseSong} playing={this.state.playing} musicScreen={this.musicScreen} getItunesData={this.getItunesData} />
 		} else {
 		  	screen = <SongList activeSong={this.state.activeSong} songData={this.state.songData} />
+		  	button = <MusicListButton active={this.state.active} increment={this.increaseSongIndex} decrement={this.decreaseSongIndex} playSong={this.playSong} pauseSong={this.pauseSong} playing={this.state.playing} homeScreen={this.homeScreen} />
 		}
 		return(
 			<div>
 				<div id="screen">
 					{screen}
 				</div>
-					<Button active={this.state.active} increment={this.increaseIndex} decrement={this.decreaseIndex} getItunesData={this.getItunesData} playSong={this.playSong} pauseSong={this.pauseSong} playing={this.state.playing} changeScreen={this.changeScreen} />
+					{button}
 			</div>
 		)
 	}
@@ -125,7 +147,7 @@ var SongList = React.createClass({
 		var self = this;
 		var songItems = this.props.songData.map(function(song, index){
 				return(
-					<li key={song.trackCensoredName}
+					<li key={index}
 						className={self.props.activeSong === index ? 'active' : ''}>
 						{song.trackCensoredName}
 					</li>
@@ -133,10 +155,9 @@ var SongList = React.createClass({
 		})
 		return <ul>{songItems}</ul>
 	}
-
 });
 
-var Button = React.createClass({
+var HomeButton = React.createClass({
 
 	onClick: function() {
 		this.props.playSong();
@@ -144,8 +165,7 @@ var Button = React.createClass({
 
 	getMusicAndNavigate: function() {
 		this.props.getItunesData();
-		this.props.changeScreen();
-		console.log('hi')
+		this.props.musicScreen();
 	},
 
 	render: function() {
@@ -159,8 +179,8 @@ var Button = React.createClass({
 				</div>
 				
 				<div className="pause">
-					<i onClick={this.playSong} className="fa fa-play" aria-hidden="true"></i>
-					<i onClick={this.props.pauseSong} className="fa fa-pause" aria-hidden="true"></i>
+					<i onClick={this.getMusicAndNavigate}className="fa fa-play" aria-hidden="true"></i>
+					<i className="fa fa-pause" aria-hidden="true"></i>
 				</div>
 
 				<div className="prev" onClick={this.props.decrement}>
@@ -170,6 +190,32 @@ var Button = React.createClass({
 		    </div>
 		)
 	}
-})
+});
+
+var MusicListButton = React.createClass({
+
+	render: function() {
+		
+		return(
+			<div className="button">
+				<div onClick={this.props.homeScreen} className='menu'>MENU</div>
+				
+				<div className="next" onClick={this.props.increment}>
+					<i className="fa fa-fast-forward" aria-hidden="true"></i>
+				</div>
+				
+				<div className="pause">
+					<i onClick={this.props.playSong} className="fa fa-play" aria-hidden="true"></i>
+					<i onClick={this.props.pauseSong} className="fa fa-pause" aria-hidden="true"></i>
+				</div>
+
+				<div className="prev" onClick={this.props.decrement}>
+					<i className="fa fa-fast-backward" aria-hidden="true"></i>
+				</div>
+		    	<div onClick={this.props.homeScreen} className='inner-button'></div>
+		    </div>
+		)
+	}
+});
 
 ReactDOM.render(<App/>, document.getElementById('app'));
